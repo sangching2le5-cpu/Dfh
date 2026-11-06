@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 6: 我学习汉语 - Tôi Học Tiếng Trung</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        },
+                        accent: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                        zh: ['Noto Sans SC', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth scrolling */
+        html { scroll-behavior: smooth; }
+        /* Perspective for flip cards */
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Top Sticky Header & Navigation -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Title & Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-500 flex items-center justify-center text-white font-bold text-xl shadow-md">
+                        六
+                    </div>
+                    <div>
+                        <h1 class="text-lg sm:text-xl font-bold text-slate-900 leading-tight">第六课：我学习汉语</h1>
+                        <p class="text-xs text-slate-500">Bài 6: Tôi học tiếng Trung</p>
+                    </div>
+                </div>
+
+                <!-- Global Display Toggles -->
+                <div class="hidden md:flex items-center space-x-4 bg-slate-100 p-1.5 rounded-lg text-xs font-medium">
+                    <button id="togglePinyinBtn" onclick="toggleGlobalPinyin()" class="px-3 py-1.5 rounded-md bg-white text-slate-700 shadow-sm hover:bg-slate-50 transition">
+                        <i class="fa-solid fa-[#font] text-brand-600 mr-1"></i> Pinyin: <span id="pinyinStateText" class="font-bold text-brand-600">Hiện</span>
+                    </button>
+                    <button id="toggleViBtn" onclick="toggleGlobalVi()" class="px-3 py-1.5 rounded-md bg-white text-slate-700 shadow-sm hover:bg-slate-50 transition">
+                        <i class="fa-solid fa-language text-accent-500 mr-1"></i> Tiếng Việt: <span id="viStateText" class="font-bold text-accent-500">Hiện</span>
+                    </button>
+                </div>
+
+                <!-- Progress Pill -->
+                <div class="flex items-center space-x-3">
+                    <div class="text-right hidden sm:block">
+                        <div class="text-xs text-slate-500 font-medium">Tiến độ bài học</div>
+                        <div id="progressPercentText" class="text-sm font-bold text-brand-600">0%</div>
+                    </div>
+                    <div class="w-12 bg-slate-200 rounded-full h-2.5 overflow-hidden">
+                        <div id="progressBar" class="bg-brand-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Bar -->
+        <nav class="bg-white border-t border-slate-100 px-4 overflow-x-auto">
+            <div class="max-w-7xl mx-auto flex space-x-6 text-sm font-medium whitespace-nowrap py-2">
+                <a href="#kewen" class="text-brand-600 border-b-2 border-brand-600 pb-1 px-1 flex items-center gap-1.5"><i class="fa-solid fa-book-open"></i> 课文 Bài khóa</a>
+                <a href="#shengci" class="text-slate-600 hover:text-brand-600 pb-1 px-1 flex items-center gap-1.5"><i class="fa-solid fa-layer-group"></i> 生词 Từ vựng</a>
+                <a href="#zhushi" class="text-slate-600 hover:text-brand-600 pb-1 px-1 flex items-center gap-1.5"><i class="fa-solid fa-circle-info"></i> 注释 Chú thích</a>
+                <a href="#yuyin" class="text-slate-600 hover:text-brand-600 pb-1 px-1 flex items-center gap-1.5"><i class="fa-solid fa-microphone"></i> 语音 Ngữ âm</a>
+                <a href="#lianxi" class="text-slate-600 hover:text-brand-600 pb-1 px-1 flex items-center gap-1.5"><i class="fa-solid fa-pen-to-square"></i> 练习 Luyện tập</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- Mobile Toggles Bar -->
+        <div class="md:hidden flex justify-between bg-white p-3 rounded-xl shadow-sm border border-slate-200 text-xs">
+            <button onclick="toggleGlobalPinyin()" class="px-3 py-1.5 rounded-lg bg-slate-100 font-medium">
+                Pinyin: <span id="pinyinStateTextMobile" class="text-brand-600 font-bold">Hiện</span>
+            </button>
+            <button onclick="toggleGlobalVi()" class="px-3 py-1.5 rounded-lg bg-slate-100 font-medium">
+                Tiếng Việt: <span id="viStateTextMobile" class="text-accent-500 font-bold">Hiện</span>
+            </button>
+        </div>
+
+        <!-- Section 1: 课文 Kèwén - Bài khóa -->
+        <section id="kewen" class="scroll-mt-24 space-y-6">
+            <div class="border-l-4 border-brand-600 pl-4 py-1">
+                <h2 class="text-2xl font-bold text-slate-900">一、课文 Kèwén – Bài khóa</h2>
+                <p class="text-sm text-slate-500">Luyện nghe, đọc hội thoại và nắm vững cấu trúc câu</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <!-- Dialogue 1 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-100">
+                            <h3 class="text-lg font-bold text-brand-700 flex items-center gap-2">
+                                <span class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center text-sm">1</span>
+                                （一）我学习汉语 – Tôi học tiếng Trung
+                            </h3>
+                            <button onclick="speakText('请问，你贵姓？我姓张。你叫什么名字？我叫张东。你是哪国人？我是中国人。你是哪国人？我是美国人。你学习什么？我学习汉语。汉语难吗？汉字很难，发音不太难。')" 
+                                    class="text-xs bg-brand-50 text-brand-600 px-3 py-1.5 rounded-lg hover:bg-brand-100 transition flex items-center gap-1 font-medium">
+                                <i class="fa-solid fa-volume-high"></i> Nghe cả bài
+                            </button>
+                        </div>
+
+                        <!-- Dialogue lines -->
+                        <div class="space-y-4">
+                            <!-- Line 1 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">麦克</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Qǐngwèn, nǐ guìxìng?</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">请问，你贵姓？</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Xin hỏi, bạn họ gì?</div>
+                                </div>
+                                <button onclick="speakText('请问，你贵姓？')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 2 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">张东</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Wǒ xìng Zhāng.</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">我姓张。</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Tôi họ Trương.</div>
+                                </div>
+                                <button onclick="speakText('我姓张。')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 3 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">麦克</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Nǐ jiào shénme míngzi?</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">你叫什么名字？</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Bạn tên là gì?</div>
+                                </div>
+                                <button onclick="speakText('你叫什么名字？')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 4 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">张东</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Wǒ jiào Zhāng Dōng.</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">我叫张东。</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Tôi tên là Trương Đông.</div>
+                                </div>
+                                <button onclick="speakText('我叫张东。')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 5 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">麦克</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Nǐ shì nǎ guó rén?</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">你是哪国人？</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Bạn là người nước nào?</div>
+                                </div>
+                                <button onclick="speakText('你是哪国人？')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 6 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">张东</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Wǒ shì Zhōngguó rén. Nǐ shì nǎ guó rén?</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">我是中国人。你是哪国人？</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Tôi là người Trung Quốc. Bạn là người nước nào?</div>
+                                </div>
+                                <button onclick="speakText('我是中国人。你是哪国人？')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 7 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">麦克</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Wǒ shì Měiguó rén.</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">我是美国人。</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Tôi là người Mỹ.</div>
+                                </div>
+                                <button onclick="speakText('我是美国人。')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 8 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">张东</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Nǐ xuéxí shénme?</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">你学习什么？</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Bạn học gì?</div>
+                                </div>
+                                <button onclick="speakText('你学习什么？')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 9 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">麦克</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Wǒ xuéxí Hànyǔ.</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">我学习汉语。</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Tôi học tiếng Trung.</div>
+                                </div>
+                                <button onclick="speakText('我学习汉语。')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 10 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">张东</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Hànyǔ nán ma?</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">汉语难吗？</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Tiếng Trung khó không?</div>
+                                </div>
+                                <button onclick="speakText('汉语难吗？')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 11 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">麦克</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Hànzì hěn nán, fāyīn bú tài nán.</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">汉字很难，发音不太难。</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Chữ Hán rất khó, phát âm không quá khó.</div>
+                                </div>
+                                <button onclick="speakText('汉字很难，发音不太难。')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dialogue 2 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-100">
+                            <h3 class="text-lg font-bold text-accent-600 flex items-center gap-2">
+                                <span class="w-7 h-7 rounded-lg bg-orange-50 text-accent-500 flex items-center justify-center text-sm">2</span>
+                                （二）这是什么书 – Đây là sách gì?
+                            </h3>
+                            <button onclick="speakText('这是什么？这是书。这是什么书？这是中文书。这是谁的书？这是老师的书。那是什么？那是杂志。那是什么杂志？那是英文杂志。那是谁的杂志？ me那是朋友的杂志。')" 
+                                    class="text-xs bg-orange-50 text-accent-600 px-3 py-1.5 rounded-lg hover:bg-orange-100 transition flex items-center gap-1 font-medium">
+                                <i class="fa-solid fa-volume-high"></i> Nghe cả bài
+                            </button>
+                        </div>
+
+                        <!-- Context hint -->
+                        <div class="mb-4 bg-slate-50 p-2.5 rounded-lg border border-slate-100 text-xs text-slate-500 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-info text-brand-500"></i>
+                            <span>Bối cảnh: (桌子上有两个邮包：There are two postal parcels on the table.)</span>
+                        </div>
+
+                        <!-- Dialogue lines -->
+                        <div class="space-y-4">
+                            <!-- Line 1 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">A</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Zhè shì shénme?</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">这是什么？</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Đây là cái gì?</div>
+                                </div>
+                                <button onclick="speakText('这是什么？')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 2 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">B</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Zhè shì shū.</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">这是书。</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Đây là sách.</div>
+                                </div>
+                                <button onclick="speakText('这是书。')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 3 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">A</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Zhè shì shénme shū?</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">这是什么书？</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Đây là sách gì?</div>
+                                </div>
+                                <button onclick="speakText('这是什么书？')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 4 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">B</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Zhè shì Zhōngwén shū.</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">这是中文书。</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Đây là sách tiếng Trung.</div>
+                                </div>
+                                <button onclick="speakText('这是中文书。')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 5 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">A</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Zhè shì shéi de shū?</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">这是谁的书？</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Đây là sách của ai?</div>
+                                </div>
+                                <button onclick="speakText('这是谁的书？')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 6 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">B</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Zhè shì lǎoshī de shū.</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">这是老师的书。</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Đây là sách của giáo viên.</div>
+                                </div>
+                                <button onclick="speakText('这是老师的书。')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 7 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">A</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Nà shì shénme?</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">那是什么？</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Kia là cái gì?</div>
+                                </div>
+                                <button onclick="speakText('那是什么？')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 8 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">B</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Nà shì zázhì.</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">那是杂志。</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Kia là tạp chí.</div>
+                                </div>
+                                <button onclick="speakText('那是杂志。')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 9 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">A</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Nà shì shénme zázhì?</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">那是什么杂志？</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Kia là tạp chí gì?</div>
+                                </div>
+                                <button onclick="speakText('那是什么杂志？')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 10 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">B</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Nà shì Yīngwén zázhì.</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">那是英文杂志。</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Kia là tạp chí tiếng Anh.</div>
+                                </div>
+                                <button onclick="speakText('那是英文杂志。')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 11 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">A</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Nà shì shéi de zázhì?</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">那是谁的杂志？</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Kia là tạp chí của ai?</div>
+                                </div>
+                                <button onclick="speakText('那是谁的杂志？')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                            <!-- Line 12 -->
+                            <div class="flex items-start gap-3 group">
+                                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded shrink-0 mt-1">B</span>
+                                <div class="flex-grow">
+                                    <div class="pinyin text-xs text-brand-600 font-medium">Nà shì wǒ péngyou de zázhì.</div>
+                                    <div class="text-base text-slate-800 font-zh font-medium">那是我朋友的杂志。</div>
+                                    <div class="vi-text text-xs text-slate-500 italic mt-0.5">Kia là tạp chí của bạn tôi.</div>
+                                </div>
+                                <button onclick="speakText('那是我朋友的杂志。')" class="opacity-40 group-hover:opacity-100 text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 2: 生词 Shēngcí – Từ vựng -->
+        <section id="shengci" class="scroll-mt-24 space-y-6">
+            <div class="border-l-4 border-accent-500 pl-4 py-1 flex justify-between items-end">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">二、生词 Shēngcí – Từ vựng</h2>
+                    <p class="text-sm text-slate-500">Thẻ từ vựng tương tác và danh sách tra cứu đầy đủ</p>
+                </div>
+                <!-- Interactive Tabs -->
+                <div class="flex space-x-2 bg-slate-200 p-1 rounded-xl text-xs font-medium">
+                    <button onclick="switchVocabTab('flashcard')" id="tabFlashcard" class="px-3 py-1.5 rounded-lg bg-white shadow text-slate-900">Flashcard Thẻ Nhớ</button>
+                    <button onclick="switchVocabTab('table')" id="tabTable" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Bảng Tổng Hợp</button>
+                </div>
+            </div>
+
+            <!-- Flashcard View Container -->
+            <div id="vocabFlashcardView" class="space-y-4">
+                <div class="max-w-md mx-auto">
+                    <!-- Flashcard Card -->
+                    <div id="flashcardElement" onclick="flipCard()" class="perspective-1000 w-full h-64 cursor-pointer select-none">
+                        <div id="cardInner" class="relative w-full h-full duration-500 transform-style-3d bg-white rounded-2xl shadow-md border border-slate-200 flex flex-col justify-between p-6">
+                            <!-- Front Side -->
+                            <div class="absolute inset-0 backface-hidden flex flex-col justify-between p-6 bg-gradient-to-b from-white to-slate-50 rounded-2xl">
+                                <div class="flex justify-between items-center text-xs text-slate-400">
+                                    <span id="fcCategory" class="bg-brand-50 text-brand-600 px-2.5 py-1 rounded-md font-semibold">Cơ bản</span>
+                                    <span id="fcCounter">1 / 39</span>
+                                </div>
+                                <div class="text-center my-auto">
+                                    <div id="fcHanzi" class="text-5xl font-bold text-slate-800 font-zh mb-2">请问</div>
+                                    <div id="fcPinyin" class="pinyin text-lg text-brand-600 font-medium">qǐngwèn</div>
+                                </div>
+                                <div class="text-center text-xs text-slate-400 italic">
+                                    Chạm để lật xem nghĩa & từ loại
+                                </div>
+                            </div>
+                            <!-- Back Side -->
+                            <div class="absolute inset-0 backface-hidden rotate-y-180 flex flex-col justify-between p-6 bg-brand-600 text-white rounded-2xl">
+                                <div class="flex justify-between items-center text-xs text-brand-200">
+                                    <span id="fcTypeBack" class="bg-brand-700/60 px-2.5 py-1 rounded-md font-semibold">Động từ</span>
+                                    <span>Đáp án</span>
+                                </div>
+                                <div class="text-center my-auto">
+                                    <div id="fcViBack" class="text-2xl font-bold mb-1">Xin hỏi</div>
+                                    <div id="fcHanziBack" class="text-lg opacity-90 font-zh">请问 (qǐngwèn)</div>
+                                </div>
+                                <button onclick="event.stopPropagation(); speakCurrentFc();" class="mx-auto text-xs bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-full flex items-center gap-2">
+                                    <i class="fa-solid fa-volume-high"></i> Phát âm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flashcard Controls -->
+                    <div class="flex justify-between items-center mt-4">
+                        <button onclick="prevCard()" class="p-3 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-700 shadow-sm transition">
+                            <i class="fa-solid fa-arrow-left"></i> Từ trước
+                        </button>
+                        <button onclick="speakCurrentFc()" class="p-3 bg-brand-50 text-brand-600 rounded-xl hover:bg-brand-100 transition">
+                            <i class="fa-solid fa-volume-high text-lg"></i>
+                        </button>
+                        <button onclick="nextCard()" class="p-3 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-700 shadow-sm transition">
+                            Từ sau <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table View Container (Hidden by default) -->
+            <div id="vocabTableView" class="hidden space-y-6">
+                <!-- 1. Từ vựng cơ bản -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 font-bold text-slate-800 flex justify-between items-center">
+                        <span>1. Từ vựng cơ bản</span>
+                        <span class="text-xs text-slate-500 font-normal">19 từ</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100/70 text-slate-600 text-xs uppercase tracking-wider">
+                                    <th class="py-3 px-4 font-semibold">STT</th>
+                                    <th class="py-3 px-4 font-semibold">Hán tự</th>
+                                    <th class="py-3 px-4 font-semibold">Pinyin</th>
+                                    <th class="py-3 px-4 font-semibold">Từ loại</th>
+                                    <th class="py-3 px-4 font-semibold">Tiếng Việt</th>
+                                    <th class="py-3 px-4 font-semibold text-center">Nghe</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-sm" id="tableBasicVocab">
+                                <!-- JavaScript dynamic rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 2. Tên quốc gia & 3. Ngôn ngữ & 4. Tên riêng -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Quốc gia -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 font-bold text-slate-800">
+                            2. Tên quốc gia – 国家名称
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-100/70 text-slate-600 text-xs">
+                                        <th class="py-2.5 px-4">Hán tự</th>
+                                        <th class="py-2.5 px-4">Pinyin</th>
+                                        <th class="py-2.5 px-4">Tiếng Việt</th>
+                                        <th class="py-2.5 px-4 text-center">Nghe</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 text-sm" id="tableCountryVocab"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Ngôn ngữ & Tên riêng -->
+                    <div class="space-y-6">
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                            <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 font-bold text-slate-800">
+                                3. Tên ngôn ngữ – 语言名称
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="bg-slate-100/70 text-slate-600 text-xs">
+                                            <th class="py-2.5 px-4">Hán tự</th>
+                                            <th class="py-2.5 px-4">Pinyin</th>
+                                            <th class="py-2.5 px-4">Tiếng Việt</th>
+                                            <th class="py-2.5 px-4 text-center">Nghe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 text-sm" id="tableLangVocab"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                            <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 font-bold text-slate-800">
+                                4. Tên riêng – 专有名词
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="bg-slate-100/70 text-slate-600 text-xs">
+                                            <th class="py-2.5 px-4">Hán tự</th>
+                                            <th class="py-2.5 px-4">Pinyin</th>
+                                            <th class="py-2.5 px-4">Nghĩa</th>
+                                            <th class="py-2.5 px-4 text-center">Nghe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 text-sm" id="tableNamesVocab"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 3: 注释 Zhùshì – Chú thích -->
+        <section id="zhushi" class="scroll-mt-24 space-y-6">
+            <div class="border-l-4 border-emerald-500 pl-4 py-1">
+                <h2 class="text-2xl font-bold text-slate-900">三、注释 Zhùshì – Chú thích</h2>
+                <p class="text-sm text-slate-500">Các quy tắc văn hóa và cách dùng từ đặc thù trong bài</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Note 1 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-address-card text-emerald-500"></i> 1. 中国人的姓名 – Họ tên của người Trung Quốc
+                    </h3>
+                    <div class="text-sm text-slate-700 leading-relaxed bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                        中国人的名字分姓和名两部分，姓在前，名在后。姓多为一个汉字，少数为两个汉字；名有两个汉字的，也有一个汉字的。
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Họ tên của người Trung Quốc gồm hai phần: <strong>họ (姓)</strong> và <strong>tên (名)</strong>. Họ đứng trước, tên đứng sau. Phần lớn họ chỉ có một chữ Hán, một số ít có hai chữ Hán. Tên có thể gồm một hoặc hai chữ Hán.
+                    </p>
+
+                    <div class="overflow-x-auto border border-slate-100 rounded-xl">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-emerald-50 text-emerald-900 text-xs">
+                                <tr>
+                                    <th class="p-2.5">姓 (Họ)</th>
+                                    <th class="p-2.5">名 (Tên)</th>
+                                    <th class="p-2.5">姓名 (Họ tên)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr>
+                                    <td class="p-2.5">王 Wáng</td>
+                                    <td class="p-2.5">伟国 Wěiguó</td>
+                                    <td class="p-2.5 font-bold text-slate-800">王伟国</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5">张 Zhāng</td>
+                                    <td class="p-2.5">东 Dōng</td>
+                                    <td class="p-2.5 font-bold text-slate-800">张东</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5">田 Tián</td>
+                                    <td class="p-2.5">芳 Fāng</td>
+                                    <td class="p-2.5 font-bold text-slate-800">田芳</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Note 2 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-emerald-500"></i> 2. 贵姓 – Quý tính
+                    </h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        <strong class="text-slate-800 font-zh text-base">“贵姓” (guìxìng)</strong> là cách hỏi họ của người khác một cách lịch sự, trang trọng (thường dùng trong giao tiếp xã giao hoặc lần đầu gặp).
+                    </p>
+                    
+                    <div class="bg-emerald-50/60 p-4 rounded-xl border border-emerald-100 space-y-3">
+                        <div class="text-xs font-bold text-emerald-800 uppercase tracking-wide">Ví dụ mẫu:</div>
+                        <div class="flex items-start gap-2">
+                            <span class="bg-emerald-200 text-emerald-800 text-xs px-1.5 py-0.5 rounded font-bold">A</span>
+                            <div>
+                                <div class="font-medium text-slate-800">请问，您贵姓？</div>
+                                <div class="text-xs text-slate-500">Xin hỏi, quý danh của ông/bà là gì?</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="bg-emerald-200 text-emerald-800 text-xs px-1.5 py-0.5 rounded font-bold">B</span>
+                            <div>
+                                <div class="font-medium text-slate-800">我姓王。</div>
+                                <div class="text-xs text-slate-500">Tôi họ Vương.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: 语音 Yǔyīn – Ngữ âm -->
+        <section id="yuyin" class="scroll-mt-24 space-y-6">
+            <div class="border-l-4 border-purple-500 pl-4 py-1">
+                <h2 class="text-2xl font-bold text-slate-900">四、语音 Yǔyīn – Ngữ âm</h2>
+                <p class="text-sm text-slate-500">词重音（1）– Trọng âm từ (1) trong tiếng Trung</p>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-6">
+                <div class="bg-purple-50 p-4 rounded-xl border border-purple-100 text-sm text-slate-700 leading-relaxed">
+                    Trong các từ tiếng Trung có hai hoặc nhiều âm tiết, thường có một âm tiết được phát âm mạnh hơn. Âm tiết đó được gọi là <strong>trọng âm từ</strong>. Phần lớn từ có trọng âm ở âm tiết cuối. Một số từ có trọng âm ở âm tiết đầu.
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Accent End -->
+                    <div class="border border-slate-200 rounded-xl p-4">
+                        <h4 class="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-volume-off text-purple-600"></i> 1. Trọng âm ở âm tiết cuối
+                        </h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="speakText('大学')" class="p-3 bg-slate-50 hover:bg-purple-50 rounded-lg text-left transition flex justify-between items-center group">
+                                <div>
+                                    <div class="font-zh font-bold text-slate-800">大学</div>
+                                    <div class="pinyin text-xs text-purple-600">dàxué</div>
+                                </div>
+                                <i class="fa-solid fa-volume-low text-slate-400 group-hover:text-purple-600"></i>
+                            </button>
+                            <button onclick="speakText('学习')" class="p-3 bg-slate-50 hover:bg-purple-50 rounded-lg text-left transition flex justify-between items-center group">
+                                <div>
+                                    <div class="font-zh font-bold text-slate-800">学习</div>
+                                    <div class="pinyin text-xs text-purple-600">xuéxí</div>
+                                </div>
+                                <i class="fa-solid fa-volume-low text-slate-400 group-hover:text-purple-600"></i>
+                            </button>
+                            <button onclick="speakText('发音')" class="p-3 bg-slate-50 hover:bg-purple-50 rounded-lg text-left transition flex justify-between items-center group">
+                                <div>
+                                    <div class="font-zh font-bold text-slate-800">发音</div>
+                                    <div class="pinyin text-xs text-purple-600">fāyīn</div>
+                                </div>
+                                <i class="fa-solid fa-volume-low text-slate-400 group-hover:text-purple-600"></i>
+                            </button>
+                            <button onclick="speakText('汉语')" class="p-3 bg-slate-50 hover:bg-purple-50 rounded-lg text-left transition flex justify-between items-center group">
+                                <div>
+                                    <div class="font-zh font-bold text-slate-800">汉语</div>
+                                    <div class="pinyin text-xs text-purple-600">Hànyǔ</div>
+                                </div>
+                                <i class="fa-solid fa-volume-low text-slate-400 group-hover:text-purple-600"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Accent First -->
+                    <div class="border border-slate-200 rounded-xl p-4">
+                        <h4 class="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-volume-high text-purple-600"></i> 2. Trọng âm ở âm tiết đầu
+                        </h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="speakText('名字')" class="p-3 bg-slate-50 hover:bg-purple-50 rounded-lg text-left transition flex justify-between items-center group">
+                                <div>
+                                    <div class="font-zh font-bold text-slate-800">名字</div>
+                                    <div class="pinyin text-xs text-purple-600">míngzi</div>
+                                </div>
+                                <i class="fa-solid fa-volume-low text-slate-400 group-hover:text-purple-600"></i>
+                            </button>
+                            <button onclick="speakText('学生')" class="p-3 bg-slate-50 hover:bg-purple-50 rounded-lg text-left transition flex justify-between items-center group">
+                                <div>
+                                    <div class="font-zh font-bold text-slate-800">学生</div>
+                                    <div class="pinyin text-xs text-purple-600">xuésheng</div>
+                                </div>
+                                <i class="fa-solid fa-volume-low text-slate-400 group-hover:text-purple-600"></i>
+                            </button>
+                            <button onclick="speakText('大夫')" class="p-3 bg-slate-50 hover:bg-purple-50 rounded-lg text-left transition flex justify-between items-center group">
+                                <div>
+                                    <div class="font-zh font-bold text-slate-800">大夫</div>
+                                    <div class="pinyin text-xs text-purple-600">dàifu</div>
+                                </div>
+                                <i class="fa-solid fa-volume-low text-slate-400 group-hover:text-purple-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: 练习 Liànxí – Luyện tập -->
+        <section id="lianxi" class="scroll-mt-24 space-y-8">
+            <div class="border-l-4 border-amber-500 pl-4 py-1">
+                <h2 class="text-2xl font-bold text-slate-900">五、练习 Liànxí – Luyện tập</h2>
+                <p class="text-sm text-slate-500">Bài tập âm điệu, hoàn thành hội thoại, thay thế từ và trắc nghiệm</p>
+            </div>
+
+            <!-- Part 1: Phonetics Practice -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-6">
+                <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">1. 语音 – Ngữ âm (Click từng từ để nghe phát âm)</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- (1) Phát âm và thanh điệu -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="font-bold text-xs text-slate-500 mb-2 uppercase">（1）发音和声调</div>
+                        <div class="space-y-1.5 text-sm" id="phoneticsList1"></div>
+                    </div>
+                    <!-- (2) Biến điệu thanh 3 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="font-bold text-xs text-slate-500 mb-2 uppercase">（2）三声变调</div>
+                        <div class="space-y-1.5 text-sm" id="phoneticsList2"></div>
+                    </div>
+                    <!-- (3) Thanh nhẹ -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="font-bold text-xs text-slate-500 mb-2 uppercase">（3）轻声</div>
+                        <div class="space-y-1.5 text-sm" id="phoneticsList3"></div>
+                    </div>
+                    <!-- (4) Kết hợp thanh điệu -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="font-bold text-xs text-slate-500 mb-2 uppercase">（4）声调搭配</div>
+                        <div class="space-y-1.5 text-sm" id="phoneticsList4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 2: Answer Questions -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+                <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">2. 回答问题 – Trả lời câu hỏi</h3>
+                <div class="space-y-4">
+                    <div class="p-4 bg-slate-50 rounded-xl space-y-2">
+                        <div class="font-medium text-slate-800">1. “jiào shénme míngzi”是什么意思？</div>
+                        <input type="text" placeholder="Nhập câu trả lời bằng tiếng Việt hoặc tiếng Trung..." class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <details class="text-xs text-slate-500 cursor-pointer">
+                            <summary class="hover:text-brand-600 font-semibold">Xem gợi ý đáp án</summary>
+                            <p class="mt-1 text-emerald-600">Nghĩa là: "Tên là gì?" / "Tên bạn là gì?" (叫什么名字)</p>
+                        </details>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 rounded-xl space-y-2">
+                        <div class="font-medium text-slate-800">2. Nǐ shì nǎ guó rén? (你是哪国人？)</div>
+                        <input type="text" placeholder="Ví dụ: 我是越南人 / 我是中国人..." class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <details class="text-xs text-slate-500 cursor-pointer">
+                            <summary class="hover:text-brand-600 font-semibold">Xem gợi ý đáp án</summary>
+                            <p class="mt-1 text-emerald-600">Gợi ý: 我是越南人 (Wǒ shì Yuènán rén) / 我是美国人 (Wǒ shì Měiguó rén)...</p>
+                        </details>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 rounded-xl space-y-2">
+                        <div class="font-medium text-slate-800">3. 你学习什么？ (Nǐ xuéxí shénme?)</div>
+                        <input type="text" placeholder="Ví dụ: 我学习汉语..." class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <details class="text-xs text-slate-500 cursor-pointer">
+                            <summary class="hover:text-brand-600 font-semibold">Xem gợi ý đáp án</summary>
+                            <p class="mt-1 text-emerald-600">Gợi ý: 我学习汉语 (Tôi học tiếng Trung) / 我学习英语 (Tôi học tiếng Anh)...</p>
+                        </details>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 rounded-xl space-y-2">
+                        <div class="font-medium text-slate-800">4. Hànyǔ nán ma? (汉语难吗？)</div>
+                        <input type="text" placeholder="Ví dụ: 汉字很难，发音不太难..." class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <details class="text-xs text-slate-500 cursor-pointer">
+                            <summary class="hover:text-brand-600 font-semibold">Xem gợi ý đáp án</summary>
+                            <p class="mt-1 text-emerald-600">Gợi ý bài khóa: 汉字很难，发音不太难。(Hànzì hěn nán, fāyīn bú tài nán.)</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 3: Complete Dialogue -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+                <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">3. 完成下列对话 – Hoàn thành hội thoại</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Dialogue 1 -->
+                    <div class="p-4 border border-slate-200 rounded-xl space-y-3">
+                        <div class="font-bold text-slate-700 text-sm">(1) Điền câu hỏi phù hợp:</div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold">A:</span>
+                                <input type="text" id="dlg1_a1" placeholder="Nhập câu hỏi..." class="w-full px-2 py-1 border border-slate-300 rounded text-sm">
+                            </div>
+                            <div><span class="font-bold">B:</span> Wǒ xìng Zhāng. (我姓张。)</div>
+                            
+                            <div class="flex items-center gap-2 pt-2">
+                                <span class="font-bold">A:</span>
+                                <input type="text" id="dlg1_a2" placeholder="Nhập câu hỏi..." class="w-full px-2 py-1 border border-slate-300 rounded text-sm">
+                            </div>
+                            <div><span class="font-bold">B:</span> Wǒ jiào Zhāng Dōng. (我叫张东。)</div>
+                            
+                            <div class="flex items-center gap-2 pt-2">
+                                <span class="font-bold">A:</span>
+                                <input type="text" id="dlg1_a3" placeholder="Nhập câu hỏi..." class="w-full px-2 py-1 border border-slate-300 rounded text-sm">
+                            </div>
+                            <div><span class="font-bold">B:</span> 我是中国人。你是中国人吗？</div>
+                        </div>
+                        <button onclick="checkDialogue1()" class="mt-2 text-xs bg-slate-100 hover:bg-brand-50 hover:text-brand-600 px-3 py-1.5 rounded-lg transition font-semibold">
+                            Kiểm tra đáp án (1)
+                        </button>
+                        <div id="dlg1_msg" class="text-xs hidden mt-1"></div>
+                    </div>
+
+                    <!-- Dialogue 2 & Options -->
+                    <div class="p-4 border border-slate-200 rounded-xl space-y-3">
+                        <div class="font-bold text-slate-700 text-sm">(2) Thay quốc gia & (3), (4) Chọn từ điền vào hội thoại:</div>
+                        
+                        <div class="space-y-3 text-sm">
+                            <div>
+                                <div class="text-xs text-slate-500 mb-1">Các từ gợi ý quốc gia: 美果 – 汉国 – 英国 – 德果 – 日本 – 法国</div>
+                                <div class="bg-slate-50 p-2 rounded">A: 你是哪国人？<br>B: Wǒ shì Zhōngguó rén. (Hoặc thay bằng từ trên)</div>
+                            </div>
+
+                            <div class="border-t border-slate-100 pt-2">
+                                <div class="text-xs text-slate-500 mb-1">Gợi ý từ (3): 英语 – 法语 – 德语 – 多少 – 日语</div>
+                                <div>A: 你学习什么？<br>B: 我学习 <span class="text-brand-600 font-bold">[ ... ]</span></div>
+                            </div>
+
+                            <div class="border-t border-slate-100 pt-2">
+                                <div class="text-xs text-slate-500 mb-1">Gợi ý từ (4): 中文 – 汉语 – 英文 – 法文 – 汉文</div>
+                                <div>A: 那是什么？<br>B: 那是 <span class="text-accent-600 font-bold">[ ... ]</span> 杂志。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 4: Replacement Practice -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+                <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">4. 替补练习 – Luyện tập thay thế</h3>
+                <p class="text-xs text-slate-500">Thực hành thay thế các từ gợi ý vào mẫu câu chuẩn</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Substitution 1 -->
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+                        <div class="text-xs font-bold text-brand-600 uppercase">Mẫu câu 1</div>
+                        <div class="text-sm font-medium">A: 你是哪国人？ <br> B: 我是<span class="text-brand-600 font-bold">[中国人]</span>。</div>
+                        <div class="text-xs text-slate-600">Thay thế bằng: <span class="font-zh font-bold">美国, 韩国, 英国, 德国, 日本, 法国</span></div>
+                    </div>
+
+                    <!-- Substitution 2 -->
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+                        <div class="text-xs font-bold text-brand-600 uppercase">Mẫu câu 2</div>
+                        <div class="text-sm font-medium">A: 你学习什么？ <br> B: 我学习<span class="text-brand-600 font-bold">[汉语]</span>。</div>
+                        <div class="text-xs text-slate-600">Thay thế bằng: <span class="font-zh font-bold">英语, 日语, 法语, 德语, 俄语</span></div>
+                    </div>
+
+                    <!-- Substitution 3 -->
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+                        <div class="text-xs font-bold text-brand-600 uppercase">Mẫu câu 3</div>
+                        <div class="text-sm font-medium">A: 那是什么？ <br> B: 那是<span class="text-accent-600 font-bold">[英文]</span>杂志。</div>
+                        <div class="text-xs text-slate-600">Thay thế bằng: <span class="font-zh font-bold">中文, 汉语, 英语, 法文, 韩文</span></div>
+                    </div>
+
+                    <!-- Substitution 4 -->
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+                        <div class="text-xs font-bold text-brand-600 uppercase">Mẫu câu 4</div>
+                        <div class="text-sm font-medium">A: 那是谁的？ <br> B: 那是<span class="text-accent-600 font-bold">[王老师]</span>的。</div>
+                        <div class="text-xs text-slate-600">Thay thế bằng: <span class="font-zh font-bold">我的, 张老师的, 朋友的</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 5: Paragraph Expression -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+                <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">5. 成段表达 – Diễn đạt thành đoạn</h3>
+                
+                <div class="bg-gradient-to-r from-brand-50 to-orange-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold bg-white px-3 py-1 rounded-full text-brand-600 shadow-sm">Đoạn văn hoàn chỉnh</span>
+                        <button onclick="speakText('我叫张东。我学习汉语。汉语的发音不太难，汉字很难。他叫张东，是中国人，他学习英语。')" 
+                                class="text-xs bg-brand-600 text-white px-3 py-1.5 rounded-lg hover:bg-brand-700 transition flex items-center gap-1">
+                            <i class="fa-solid fa-volume-high"></i> Nghe đọc đoạn văn
+                        </button>
+                    </div>
+
+                    <div class="text-lg font-zh font-medium text-slate-800 leading-relaxed">
+                        我叫张东。我学习汉语。汉语的发音不太难，汉字很难。他叫张东，是中国人，他学习英语。
+                    </div>
+
+                    <div class="pinyin text-sm text-brand-600 font-medium">
+                        Wǒ jiào Zhāng Dōng. Wǒ xuéxí Hànyǔ. Hànyǔ de fāyīn bú tài nán, Hànzì hěn nán. Tā jiào Zhāng Dōng, shì Zhōngguó rén, tā xuéxí Yīngyǔ.
+                    </div>
+
+                    <div class="vi-text text-sm text-slate-600 border-t border-slate-200/60 pt-2">
+                        <strong>Dịch nghĩa:</strong> Tôi tên là Trương Đông. Tôi học tiếng Trung. Phát âm tiếng Trung không quá khó, chữ Hán rất khó. Anh ấy tên là Trương Đông, là người Trung Quốc và anh ấy học tiếng Anh.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4">
+            Giáo trình Hán ngữ 1 – Bài 6: 我学习汉语 | Tài liệu học tập điện tử tương tác
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        /* Raw Vocabulary Data directly from lesson content */
+        const basicVocab = [
+            { id: 1, hz: '请问', py: 'qǐngwèn', type: 'Động từ', vi: 'Xin hỏi' },
+            { id: 2, hz: '问', py: 'wèn', type: 'Động từ', vi: 'Hỏi' },
+            { id: 3, hz: '贵姓', py: 'guìxìng', type: 'Danh từ', vi: 'Quý danh, họ' },
+            { id: 4, hz: '姓', py: 'xìng', type: 'Động từ/Danh từ', vi: 'Họ' },
+            { id: 5, hz: '叫', py: 'jiào', type: 'Động từ', vi: 'Gọi, tên là' },
+            { id: 6, hz: '名字', py: 'míngzi', type: 'Danh từ', vi: 'Tên' },
+            { id: 7, hz: '哪', py: 'nǎ', type: 'Đại từ', vi: 'Nào, đâu' },
+            { id: 8, hz: '国', py: 'guó', type: 'Danh từ', vi: 'Quốc gia' },
+            { id: 9, hz: '人', py: 'rén', type: 'Danh từ', vi: 'Người' },
+            { id: 10, hz: '学习', py: 'xuéxí', type: 'Động từ', vi: 'Học tập' },
+            { id: 11, hz: '汉字', py: 'Hànzì', type: 'Danh từ', vi: 'Chữ Hán' },
+            { id: 12, hz: '发音', py: 'fāyīn', type: 'Danh từ/Động từ', vi: 'Phát âm' },
+            { id: 13, hz: '什么', py: 'shénme', type: 'Đại từ', vi: 'Cái gì, gì' },
+            { id: 14, hz: '书', py: 'shū', type: 'Danh từ', vi: 'Sách' },
+            { id: 15, hz: '谁', py: 'shéi/shuí', type: 'Đại từ', vi: 'Ai' },
+            { id: 16, hz: '的', py: 'de', type: 'Trợ từ', vi: 'Của, biểu thị sở hữu' },
+            { id: 17, hz: '那', py: 'nà', type: 'Đại từ', vi: 'Kia, đó' },
+            { id: 18, hz: '杂志', py: 'zázhì', type: 'Danh từ', vi: 'Tạp chí' },
+            { id: 19, hz: '朋友', py: 'péngyou', type: 'Danh từ', vi: 'Bạn bè' }
+        ];
+
+        const countryVocab = [
+            { hz: '中国', py: 'Zhōngguó', vi: 'Trung Quốc' },
+            { hz: '德国', py: 'Déguó', vi: 'Đức' },
+            { hz: '俄罗斯', py: 'Éluósī', vi: 'Nga' },
+            { hz: '法国', py: 'Fǎguó', vi: 'Pháp' },
+            { hz: '韩国', py: 'Hánguó', vi: 'Hàn Quốc' },
+            { hz: '美国', py: 'Měiguó', vi: 'Mỹ' },
+            { hz: '日本', py: 'Rìběn', vi: 'Nhật Bản' },
+            { hz: '英国', py: 'Yīngguó', vi: 'Anh' }
+        ];
+
+        const langVocab = [
+            { hz: '中文', py: 'Zhōngwén', vi: 'Tiếng Trung' },
+            { hz: '阿拉伯文', py: 'Ālābówén', vi: 'Tiếng Ả Rập' },
+            { hz: '德文', py: 'Déwén', vi: 'Tiếng Đức' },
+            { hz: '俄文', py: 'Éwén', vi: 'Tiếng Nga' },
+            { hz: '法文', py: 'Fǎwén', vi: 'Tiếng Pháp' },
+            { hz: '韩文', py: 'Hánwén', vi: 'Tiếng Hàn' },
+            { hz: '日文', py: 'Rìwén', vi: 'Tiếng Nhật' },
+            { hz: '西班牙文', py: 'Xībānyáwén', vi: 'Tiếng Tây Ban Nha' },
+            { hz: '英文', py: 'Yīngwén', vi: 'Tiếng Anh' }
+        ];
+
+        const namesVocab = [
+            { hz: '麦克', py: 'Màikè', vi: 'Mike' },
+            { hz: '张东', py: 'Zhāng Dōng', vi: 'Trương Đông' }
+        ];
+
+        // All vocab merged for flashcards
+        const allVocab = [
+            ...basicVocab.map(v => ({ ...v, cat: 'Cơ bản' })),
+            ...countryVocab.map(v => ({ ...v, type: 'Quốc gia', cat: 'Tên quốc gia' })),
+            ...langVocab.map(v => ({ ...v, type: 'Ngôn ngữ', cat: 'Ngôn ngữ' })),
+            ...namesVocab.map(v => ({ ...v, type: 'Tên riêng', cat: 'Tên riêng' }))
+        ];
+
+        // Phonetics Exercise Lists
+        const phoneticsData = {
+            list1: [
+                { hz: '大学', py: 'dàxué' }, { hz: '英语', py: 'Yīngyǔ' },
+                { hz: '学习', py: 'xuéxí' }, { hz: '法语', py: 'Fǎyǔ' },
+                { hz: '汉语', py: 'Hànyǔ' }, { hz: '日语', py: 'Rìyǔ' },
+                { hz: '烟酒', py: 'yānjiǔ' }
+            ],
+            list2: [
+                { hz: '你好', py: 'nǐ hǎo' }, { hz: '请你', py: 'qǐng nǐ' },
+                { hz: '请说', py: 'qǐng shuō' }, { hz: '很好', py: 'hěn hǎo' },
+                { hz: '小马', py: 'xiǎo mǎ' }, { hz: '老李', py: 'lǎo Lǐ' },
+                { hz: '少了', py: 'shǎo le' }
+            ],
+            list3: [
+                { hz: '桌子', py: 'zhuōzi' }, { hz: '多少', py: 'duōshao' },
+                { hz: '名字', py: 'míngzi' }, { hz: '朋友', py: 'péngyou' },
+                { hz: '暖和', py: 'nuǎnhuo' }, { hz: '休息', py: 'xiūxi' },
+                { hz: '东西', py: 'dōngxi' }
+            ],
+            list4: [
+                { hz: '飞机', py: 'fēijī' }, { hz: '地区', py: 'dìqū' },
+                { hz: '工人', py: 'gōngrén' }, { hz: '咖啡馆', py: 'kāfēiguǎn' },
+                { hz: '青年', py: 'qīngnián' }, { hz: '科学', py: 'kēxué' }
+            ]
+        };
+
+        // UI States
+        let currentCardIndex = 0;
+        let isCardFlipped = false;
+        let pinyinVisible = true;
+        let viVisible = true;
+
+        // Web Speech TTS Helper
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'zh-CN';
+                utterance.rate = 0.85; // Slightly slower for language learners
+                window.speechSynthesis.speak(utterance);
+            } else {
+                console.log("Trình duyệt không hỗ trợ Web Speech API.");
+            }
+        }
+
+        // Global Hide/Show Toggles
+        function toggleGlobalPinyin() {
+            pinyinVisible = !pinyinVisible;
+            document.querySelectorAll('.pinyin').forEach(el => {
+                el.style.display = pinyinVisible ? 'block' : 'none';
+            });
+            document.getElementById('pinyinStateText').innerText = pinyinVisible ? 'Hiện' : 'Ẩn';
+            document.getElementById('pinyinStateTextMobile').innerText = pinyinVisible ? 'Hiện' : 'Ẩn';
+        }
+
+        function toggleGlobalVi() {
+            viVisible = !viVisible;
+            document.querySelectorAll('.vi-text').forEach(el => {
+                el.style.display = viVisible ? 'block' : 'none';
+            });
+            document.getElementById('viStateText').innerText = viVisible ? 'Hiện' : 'Ẩn';
+            document.getElementById('viStateTextMobile').innerText = viVisible ? 'Hiện' : 'Ẩn';
+        }
+
+        // Vocab Tab Switching
+        function switchVocabTab(tab) {
+            const fcView = document.getElementById('vocabFlashcardView');
+            const tbView = document.getElementById('vocabTableView');
+            const tabFc = document.getElementById('tabFlashcard');
+            const tabTb = document.getElementById('tabTable');
+
+            if (tab === 'flashcard') {
+                fcView.classList.remove('hidden');
+                tbView.classList.add('hidden');
+                tabFc.className = "px-3 py-1.5 rounded-lg bg-white shadow text-slate-900 font-semibold";
+                tabTb.className = "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+            } else {
+                fcView.classList.add('hidden');
+                tbView.classList.remove('hidden');
+                tabTb.className = "px-3 py-1.5 rounded-lg bg-white shadow text-slate-900 font-semibold";
+                tabFc.className = "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+            }
+        }
+
+        // Flashcard Rendering & Logic
+        function renderCard() {
+            const item = allVocab[currentCardIndex];
+            document.getElementById('fcCategory').innerText = item.cat || 'Từ vựng';
+            document.getElementById('fcCounter').innerText = `${currentCardIndex + 1} / ${allVocab.length}`;
+            document.getElementById('fcHanzi').innerText = item.hz;
+            document.getElementById('fcPinyin').innerText = item.py;
+            document.getElementById('fcTypeBack').innerText = item.type || 'Từ vựng';
+            document.getElementById('fcViBack').innerText = item.vi;
+            document.getElementById('fcHanziBack').innerText = `${item.hz} (${item.py})`;
+
+            // Reset card rotation
+            if (isCardFlipped) {
+                document.getElementById('cardInner').classList.remove('rotate-y-180');
+                isCardFlipped = false;
+            }
+        }
+
+        function flipCard() {
+            const cardInner = document.getElementById('cardInner');
+            isCardFlipped = !isCardFlipped;
+            if (isCardFlipped) {
+                cardInner.classList.add('rotate-y-180');
+            } else {
+                cardInner.classList.remove('rotate-y-180');
+            }
+        }
+
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % allVocab.length;
+            renderCard();
+            updateProgress();
+        }
+
+        function prevCard() {
+            currentCardIndex = (currentCardIndex - 1 + allVocab.length) % allVocab.length;
+            renderCard();
+        }
+
+        function speakCurrentFc() {
+            speakText(allVocab[currentCardIndex].hz);
+        }
+
+        // Render Tables Function
+        function renderTables() {
+            // Basic Vocab
+            const basicContainer = document.getElementById('tableBasicVocab');
+            basicContainer.innerHTML = basicVocab.map(v => `
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="py-2.5 px-4 font-semibold text-slate-400">${v.id}</td>
+                    <td class="py-2.5 px-4 font-zh font-bold text-base text-slate-800">${v.hz}</td>
+                    <td class="py-2.5 px-4 pinyin text-brand-600 font-medium">${v.py}</td>
+                    <td class="py-2.5 px-4 text-xs text-slate-500">${v.type}</td>
+                    <td class="py-2.5 px-4 vi-text text-slate-700">${v.vi}</td>
+                    <td class="py-2.5 px-4 text-center">
+                        <button onclick="speakText('${v.hz}')" class="text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Country Vocab
+            const countryContainer = document.getElementById('tableCountryVocab');
+            countryContainer.innerHTML = countryVocab.map(v => `
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="py-2 px-4 font-zh font-bold text-slate-800">${v.hz}</td>
+                    <td class="py-2 px-4 pinyin text-brand-600">${v.py}</td>
+                    <td class="py-2 px-4 vi-text text-slate-700">${v.vi}</td>
+                    <td class="py-2 px-4 text-center">
+                        <button onclick="speakText('${v.hz}')" class="text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Language Vocab
+            const langContainer = document.getElementById('tableLangVocab');
+            langContainer.innerHTML = langVocab.map(v => `
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="py-2 px-4 font-zh font-bold text-slate-800">${v.hz}</td>
+                    <td class="py-2 px-4 pinyin text-brand-600">${v.py}</td>
+                    <td class="py-2 px-4 vi-text text-slate-700">${v.vi}</td>
+                    <td class="py-2 px-4 text-center">
+                        <button onclick="speakText('${v.hz}')" class="text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Names Vocab
+            const namesContainer = document.getElementById('tableNamesVocab');
+            namesContainer.innerHTML = namesVocab.map(v => `
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="py-2 px-4 font-zh font-bold text-slate-800">${v.hz}</td>
+                    <td class="py-2 px-4 pinyin text-brand-600">${v.py}</td>
+                    <td class="py-2 px-4 vi-text text-slate-700">${v.vi}</td>
+                    <td class="py-2 px-4 text-center">
+                        <button onclick="speakText('${v.hz}')" class="text-slate-400 hover:text-brand-600 p-1"><i class="fa-solid fa-volume-low"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Render Phonetics Exercise Items
+        function renderPhonetics() {
+            Object.keys(phoneticsData).forEach((key, idx) => {
+                const container = document.getElementById(`phoneticsList${idx + 1}`);
+                container.innerHTML = phoneticsData[key].map(item => `
+                    <button onclick="speakText('${item.hz}')" class="w-full flex justify-between items-center p-2 rounded-lg bg-white hover:bg-purple-50 border border-slate-100 transition group text-left">
+                        <div>
+                            <span class="font-zh font-bold text-slate-800 mr-2">${item.hz}</span>
+                            <span class="pinyin text-xs text-brand-600">${item.py}</span>
+                        </div>
+                        <i class="fa-solid fa-volume-low text-slate-300 group-hover:text-purple-600 text-xs"></i>
+                    </button>
+                `).join('');
+            });
+        }
+
+        // Dialogue 1 Check
+        function checkDialogue1() {
+            const a1 = document.getElementById('dlg1_a1').value.trim();
+            const a2 = document.getElementById('dlg1_a2').value.trim();
+            const a3 = document.getElementById('dlg1_a3').value.trim();
+            const msg = document.getElementById('dlg1_msg');
+
+            msg.classList.remove('hidden');
+            msg.innerHTML = `
+                <div class="bg-emerald-50 p-2.5 rounded-lg border border-emerald-200 text-emerald-800 space-y-1">
+                    <div class="font-bold">Gợi ý đáp án đúng:</div>
+                    <div>1. 请问，你贵姓？ (Qǐngwèn, nǐ guìxìng?)</div>
+                    <div>2. 你叫什么名字？ (Nǐ jiào shénme míngzi?)</div>
+                    <div>3. 你是哪国人？ (Nǐ shì nǎ guó rén?)</div>
+                </div>
+            `;
+            updateProgress();
+        }
+
+        // Progress Tracking (localStorage)
+        function updateProgress() {
+            const progress = Math.min(100, Math.round(((currentCardIndex + 1) / allVocab.length) * 100));
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressPercentText').innerText = progress + '%';
+            localStorage.setItem('hanyu_lesson6_progress', progress);
+        }
+
+        // Initial Setup
+        window.onload = function () {
+            renderCard();
+            renderTables();
+            renderPhonetics();
+
+            // Restore saved progress
+            const savedProgress = localStorage.getItem('hanyu_lesson6_progress');
+            if (savedProgress) {
+                document.getElementById('progressBar').style.width = savedProgress + '%';
+                document.getElementById('progressPercentText').innerText = savedProgress + '%';
+            }
+        };
+    </script>
+</body>
+</html>
